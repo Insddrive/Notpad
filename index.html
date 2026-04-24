@@ -151,7 +151,7 @@
             <div class="row">
                 <button class="btn-plus" onclick="openEditor(${i})">+</button>
                 <input type="text" id="name${i}" oninput="persist(${i})">
-                <input type="text" id="ext${i}" oninput="persist(${i})">
+                <input type="text" id="ext${i}" oninput="this.value = this.value.toLowerCase(); persist(${i})">
                 <button class="btn-reset" onclick="resetRow(${i})">✕</button>
             </div>
         `;
@@ -194,7 +194,6 @@
         document.body.style.overflow = 'auto';
     }
 
-    // ਪੇਸਟ ਫੰਕਸ਼ਨ
     async function pasteFromClipboard() {
         try {
             const text = await navigator.clipboard.readText();
@@ -218,8 +217,14 @@
         }
         
         if (!ext) {
-            ext = prompt('ਫਾਈਲ ਦੀ "ਕਿਸਮ" (e.g. html, js) ਭਰੋ:');
-            if (!ext) return;
+            let promptedExt = prompt('ਫਾਈਲ ਦੀ "ਕਿਸਮ" (e.g. html, js) ਭਰੋ:');
+            if (!promptedExt) return;
+            // ਪ੍ਰੌਂਪਟ ਵਿੱਚ ਭਰੇ ਗਏ ਅੱਖਰਾਂ ਨੂੰ ਛੋਟਾ ਕਰਨਾ
+            ext = promptedExt.toLowerCase(); 
+            eField.value = ext; persist(activeRow);
+        } else {
+            // ਜੇਕਰ ਪਹਿਲਾਂ ਤੋਂ ਭਰਿਆ ਹੈ, ਤਾਂ ਪੱਕਾ ਕਰਨ ਲਈ ਉਸਨੂੰ ਵੀ ਛੋਟਾ ਕਰਨਾ
+            ext = ext.toLowerCase();
             eField.value = ext; persist(activeRow);
         }
 
