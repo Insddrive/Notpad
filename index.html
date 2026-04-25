@@ -3,518 +3,330 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Code Notepad">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Code Notepad</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Gurmukhi:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* ── AMOLED DARK (default) ── */
-  --bg:        #000000;
-  --surf:      #0a0a0a;
-  --card:      #111111;
-  --card2:     #181818;
-  --border:    #252525;
-  --border2:   #1e1e1e;
-  --accent:    #a78bfa;
+  --bg:          #000000;
+  --surf:        #0a0a0a;
+  --card:        #111111;
+  --card2:       #181818;
+  --border:      #252525;
+  --border2:     #1e1e1e;
+  --accent:      #a78bfa;
   --accent-glow: rgba(167,139,250,0.18);
-  --accent2:   #34d399;
-  --danger:    #f87171;
-  --warn:      #fbbf24;
-  --gold:      #d4af37;
-  --text:      #f0f0f0;
-  --text2:     #a0a0a0;
-  --muted:     #505050;
-  --input-bg:  #080808;
+  --accent2:     #34d399;
+  --danger:      #f87171;
+  --warn:        #fbbf24;
+  --text:        #f0f0f0;
+  --text2:       #a0a0a0;
+  --muted:       #505050;
+  --input-bg:    #080808;
 }
 [data-theme="light"] {
-  --bg:        #f4f4f8;
-  --surf:      #ffffff;
-  --card:      #ffffff;
-  --card2:     #f0f0f6;
-  --border:    #e0e0ea;
-  --border2:   #e8e8f0;
-  --accent:    #7c3aed;
+  --bg:          #f4f4f8;
+  --surf:        #ffffff;
+  --card:        #ffffff;
+  --card2:       #f0f0f6;
+  --border:      #e0e0ea;
+  --border2:     #e8e8f0;
+  --accent:      #7c3aed;
   --accent-glow: rgba(124,58,237,0.12);
-  --accent2:   #059669;
-  --danger:    #dc2626;
-  --warn:      #d97706;
-  --gold:      #b8860b;
-  --text:      #111111;
-  --text2:     #555565;
-  --muted:     #9090a0;
-  --input-bg:  #f8f8fc;
+  --accent2:     #059669;
+  --danger:      #dc2626;
+  --warn:        #d97706;
+  --text:        #111111;
+  --text2:       #555565;
+  --muted:       #9090a0;
+  --input-bg:    #f8f8fc;
 }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; margin:0; padding:0; }
 body {
-  font-family: 'Noto Sans Gurmukhi', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overscroll-behavior: none;
+  font-family:'Noto Sans Gurmukhi',sans-serif;
+  background:var(--bg); color:var(--text);
+  min-height:100vh; overscroll-behavior:none;
 }
 
-/* ══════════════════════════════
-   APP HEADER
-══════════════════════════════ */
+/* ── HEADER ── */
 .app-header {
-  background: var(--card);
-  border-bottom: 1px solid var(--border);
-  padding: 0 14px;
-  height: 54px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 200;
+  background:var(--card); border-bottom:1px solid var(--border);
+  padding:0 14px; height:54px;
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:200;
 }
-.app-logo {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
+.app-logo { display:flex; align-items:center; gap:9px; }
 .logo-icon {
-  width: 32px; height: 32px;
-  background: linear-gradient(135deg, var(--accent), #7c3aed);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
-  box-shadow: 0 0 12px var(--accent-glow);
+  width:32px; height:32px;
+  background:linear-gradient(135deg,var(--accent),#7c3aed);
+  border-radius:8px; display:flex; align-items:center; justify-content:center;
+  font-size:16px; box-shadow:0 0 12px var(--accent-glow);
 }
-.app-name {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: 0.2px;
-}
-.app-name em {
-  color: var(--accent);
-  font-style: normal;
-}
-.hdr-btns { display: flex; gap: 7px; }
+.app-name { font-size:16px; font-weight:700; color:var(--text); }
+.app-name em { color:var(--accent); font-style:normal; }
+.hdr-btns { display:flex; gap:7px; }
 .hdr-btn {
-  width: 34px; height: 34px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--card2);
-  color: var(--text2);
-  font-size: 15px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.18s;
+  width:34px; height:34px; border:1px solid var(--border); border-radius:8px;
+  background:var(--card2); color:var(--text2); font-size:15px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:all .18s;
 }
-.hdr-btn:active { transform: scale(0.88); }
+.hdr-btn:active { transform:scale(.88); }
 
-/* ══════════════════════════════
-   MAIN
-══════════════════════════════ */
-.main-wrap {
-  padding: 12px 13px 20px;
-  max-width: 520px;
-  margin: 0 auto;
-}
+/* ── MAIN ── */
+.main-wrap { padding:12px 13px 90px; max-width:520px; margin:0 auto; }
 
-/* Column header row — Excel style */
 .col-header-row {
-  display: grid;
-  grid-template-columns: 38px 1fr 82px 38px;
-  gap: 8px;
-  padding: 0 0 5px 0;
-  margin-bottom: 2px;
+  display:grid; grid-template-columns:38px 1fr 82px 38px;
+  gap:8px; padding:0 0 5px; margin-bottom:2px;
 }
 .col-hdr {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  text-align: center;
-  padding: 4px 0;
-  border-bottom: 1px solid var(--border);
+  font-size:10px; font-weight:700; color:var(--muted);
+  text-transform:uppercase; letter-spacing:1.2px;
+  text-align:center; padding:4px 0; border-bottom:1px solid var(--border);
 }
 
-/* ── FILE ROW ── */
-.files-wrap { display: flex; flex-direction: column; gap: 7px; }
+.files-wrap { display:flex; flex-direction:column; gap:7px; }
 
 .file-row {
-  display: grid;
-  grid-template-columns: 38px 1fr 82px 38px;
-  gap: 8px;
-  align-items: center;
-  animation: fadeUp 0.28s ease both;
+  display:grid; grid-template-columns:38px 1fr 82px 38px;
+  gap:8px; align-items:center; animation:fadeUp .28s ease both;
 }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 
 .file-row input {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px 7px;
-  font-size: 13px;
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--text);
-  outline: none;
-  width: 100%;
-  text-align: center;
-  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
-  caret-color: var(--accent);
+  background:var(--card); border:1px solid var(--border); border-radius:8px;
+  padding:10px 7px; font-size:13px; font-family:'JetBrains Mono',monospace;
+  color:var(--text); outline:none; width:100%; text-align:center;
+  transition:border-color .18s,box-shadow .18s,background .18s; caret-color:var(--accent);
 }
 .file-row input:focus {
-  border-color: var(--accent);
-  background: var(--input-bg);
-  box-shadow: 0 0 0 3px var(--accent-glow);
+  border-color:var(--accent); background:var(--input-bg);
+  box-shadow:0 0 0 3px var(--accent-glow);
 }
-.file-row input::placeholder { color: var(--muted); font-size: 11px; }
+.file-row input::placeholder { color:var(--muted); font-size:11px; }
 
-/* Open button */
 .open-btn {
-  width: 38px; height: 38px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  color: var(--accent);
-  font-size: 17px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  position: relative;
-  transition: all 0.18s;
+  width:38px; height:38px; background:var(--card); border:1px solid var(--border);
+  border-radius:9px; color:var(--accent); font-size:17px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  position:relative; transition:all .18s;
 }
-.open-btn:active { transform: scale(0.88); background: var(--card2); }
-.file-row.has-code .open-btn {
-  border-color: var(--accent);
-  box-shadow: 0 0 10px var(--accent-glow);
-}
-/* green dot when has code */
+.open-btn:active { transform:scale(.88); background:var(--card2); }
+.file-row.has-code .open-btn { border-color:var(--accent); box-shadow:0 0 10px var(--accent-glow); }
 .file-row.has-code .open-btn::after {
-  content: '';
-  position: absolute;
-  top: 4px; right: 4px;
-  width: 6px; height: 6px;
-  background: var(--accent2);
-  border-radius: 50%;
-  border: 1.5px solid var(--bg);
+  content:''; position:absolute; top:4px; right:4px;
+  width:6px; height:6px; background:var(--accent2);
+  border-radius:50%; border:1.5px solid var(--bg);
 }
 
-/* Delete button */
 .del-btn {
-  width: 38px; height: 38px;
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  color: var(--muted);
-  font-size: 14px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.18s;
+  width:38px; height:38px; background:transparent; border:1px solid var(--border);
+  border-radius:9px; color:var(--muted); font-size:14px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:all .18s;
 }
-.del-btn:active { color: var(--danger); border-color: var(--danger); transform: scale(0.88); }
+.del-btn:active { color:var(--danger); border-color:var(--danger); transform:scale(.88); }
 
-/* Add row */
 .add-btn {
-  width: 100%;
-  margin-top: 10px;
-  padding: 11px;
-  background: transparent;
-  border: 1px dashed var(--border);
-  border-radius: 10px;
-  color: var(--muted);
-  font-size: 13px;
-  font-family: 'Noto Sans Gurmukhi', sans-serif;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  gap: 6px;
-  transition: all 0.18s;
+  width:100%; margin-top:10px; padding:11px; background:transparent;
+  border:1px dashed var(--border); border-radius:10px; color:var(--muted);
+  font-size:22px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:all .18s;
 }
-.add-btn:active { color: var(--accent); border-color: var(--accent); background: var(--card); }
+.add-btn:active { color:var(--accent); border-color:var(--accent); background:var(--card); }
 
-/* Stats */
 .stats-bar {
-  margin-top: 14px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 13px 10px;
-  display: flex;
-  justify-content: space-around;
+  margin-top:14px; background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:13px 10px; display:flex; justify-content:space-around;
 }
-.stat-item { text-align: center; }
-.stat-val {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--accent);
-  font-family: 'JetBrains Mono', monospace;
-  line-height: 1;
-}
-.stat-lbl { font-size: 10px; color: var(--muted); margin-top: 4px; letter-spacing: 0.5px; }
+.stat-item { text-align:center; }
+.stat-val { font-size:22px; font-weight:700; color:var(--accent); font-family:'JetBrains Mono',monospace; line-height:1; }
+.stat-lbl { font-size:10px; color:var(--muted); margin-top:4px; letter-spacing:.5px; }
 
-/* ══════════════════════════════
-   EDITOR MODAL
-══════════════════════════════ */
+/* ── FAB (Floating Action Buttons) ── */
+.fab-wrap {
+  position:fixed; right:16px; bottom:24px; z-index:8000;
+  display:flex; flex-direction:column; gap:10px; align-items:center;
+}
+.fab {
+  width:50px; height:50px; border:none; border-radius:50%; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; font-size:24px;
+  transition:all .2s; box-shadow:0 4px 18px rgba(0,0,0,0.5);
+}
+.fab:active { transform:scale(.88); }
+.fab-upload {
+  background:linear-gradient(135deg,var(--accent2),#059669);
+  color:#fff;
+}
+
+/* ── EDITOR MODAL ── */
 #editorModal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  z-index: 9000;
-  flex-direction: column;
+  display:none; position:fixed; inset:0; background:var(--bg);
+  z-index:9000; flex-direction:column;
 }
-#editorModal.open { display: flex; }
+#editorModal.open { display:flex; }
 
-/* Editor top bar */
 .ed-topbar {
-  background: var(--card);
-  border-bottom: 1px solid var(--border);
-  padding: 0 12px;
-  height: 54px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  flex-shrink: 0;
+  background:var(--card); border-bottom:1px solid var(--border);
+  padding:0 12px; height:54px; display:flex; align-items:center; gap:9px; flex-shrink:0;
 }
 .ed-back {
-  width: 34px; height: 34px;
-  background: var(--card2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text);
-  font-size: 20px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.15s;
+  width:34px; height:34px; background:var(--card2); border:1px solid var(--border);
+  border-radius:8px; color:var(--text); font-size:20px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .15s;
 }
-.ed-back:active { transform: scale(0.88); }
-
-.ed-title-block { flex: 1; overflow: hidden; }
+.ed-back:active { transform:scale(.88); }
+.ed-title-block { flex:1; overflow:hidden; }
 .ed-fname {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--accent2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.ed-sub {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 1px;
+  font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:600;
+  color:var(--accent2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 
-/* Editor action buttons row */
 .ed-actions {
-  background: var(--surf);
-  border-bottom: 1px solid var(--border2);
-  padding: 8px 12px;
-  display: flex;
-  gap: 7px;
-  flex-shrink: 0;
-  align-items: center;
+  background:var(--surf); border-bottom:1px solid var(--border2);
+  padding:8px 12px; display:flex; gap:7px; flex-shrink:0; align-items:center;
 }
 .ea-btn {
-  flex: 1;
-  height: 36px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  font-family: 'JetBrains Mono', monospace;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  gap: 5px;
-  transition: all 0.15s;
-  letter-spacing: 0.3px;
+  flex:1; height:38px; border:1px solid var(--border); border-radius:8px;
+  font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:all .15s;
 }
-.ea-btn:active { transform: scale(0.92); }
-.ea-clear { background: #1a0000; color: var(--danger);  border-color: #2a0000; }
-.ea-paste { background: #0d0d1a; color: #818cf8;        border-color: #1a1a30; }
-.ea-copy  { background: #001a12; color: var(--accent2); border-color: #001f16; }
-.ea-save  { background: var(--accent); color: #fff; border-color: transparent; flex: 1.3;
-            box-shadow: 0 0 14px var(--accent-glow); }
+.ea-btn:active { transform:scale(.92); }
+.ea-clear { background:#1a0000; color:var(--danger);  border-color:#2a0000; }
+.ea-paste { background:#0d0d1a; color:#818cf8;        border-color:#1a1a30; }
+.ea-copy  { background:#001a12; color:var(--accent2); border-color:#001f16; }
+.ea-save  { background:var(--accent); color:#fff; border-color:transparent;
+            box-shadow:0 0 14px var(--accent-glow); }
+[data-theme="light"] .ea-clear { background:#fff0f0; color:var(--danger);  border-color:#fdd; }
+[data-theme="light"] .ea-paste { background:#f0f0ff; color:#4f46e5;        border-color:#dde; }
+[data-theme="light"] .ea-copy  { background:#f0fff8; color:var(--accent2); border-color:#cef; }
+[data-theme="light"] .ea-save  { background:var(--accent); color:#fff; }
 
-[data-theme="light"] .ea-clear { background: #fff0f0; color: var(--danger);  border-color: #fdd; }
-[data-theme="light"] .ea-paste { background: #f0f0ff; color: #4f46e5;        border-color: #dde; }
-[data-theme="light"] .ea-copy  { background: #f0fff8; color: var(--accent2); border-color: #cef; }
-[data-theme="light"] .ea-save  { background: var(--accent); color: #fff; }
+.ea-paste.locked { opacity:.4; background:var(--card2); color:var(--muted); border-color:var(--border); }
 
-/* Paste locked state */
-.ea-paste.locked {
-  opacity: 0.45;
-  background: var(--card2);
-  color: var(--muted);
-  border-color: var(--border);
-  box-shadow: none;
+/* Textarea wrapper & Editor FAB */
+.ed-area-wrap { flex:1; position:relative; display:flex; flex-direction:column; }
+.fab-edit {
+  position:absolute; right:16px; bottom:16px;
+  background:var(--card2); border:1px solid var(--border); color:var(--accent);
+  z-index:100;
 }
+.fab-edit.editing { background:var(--accent); color:#fff; box-shadow:0 4px 18px var(--accent-glow); }
 
-/* Textarea */
 #editorArea {
-  flex: 1;
-  width: 100%;
-  padding: 14px;
-  border: none;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-  line-height: 1.65;
-  background: var(--bg);
-  color: var(--text);
-  resize: none;
-  outline: none;
-  caret-color: var(--accent);
+  flex:1; width:100%; padding:14px; border:none;
+  font-family:'JetBrains Mono',monospace; font-size:14px; line-height:1.65;
+  background:var(--bg); color:var(--text); resize:none; outline:none; caret-color:var(--accent);
 }
-#editorArea::selection { background: var(--accent-glow); }
+#editorArea::selection { background:var(--accent-glow); }
+#editorArea[readonly] { opacity:0.85; }
 
-/* Editor footer */
 .ed-footer {
-  background: var(--card);
-  border-top: 1px solid var(--border2);
-  padding: 0 14px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--muted);
+  background:var(--card); border-top:1px solid var(--border2);
+  padding:0 14px; height:38px; display:flex; align-items:center;
+  justify-content:space-between; flex-shrink:0;
+  font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted);
 }
-.autosave-row { display: flex; align-items: center; gap: 5px; }
-.as-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--muted);
-  transition: background 0.3s;
-}
-.as-dot.saving { background: var(--warn); animation: blink 0.7s infinite; }
-.as-dot.saved  { background: var(--accent2); }
-@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
+.autosave-row { display:flex; align-items:center; gap:5px; }
+.as-dot { width:6px; height:6px; border-radius:50%; background:var(--muted); transition:background .3s; }
+.as-dot.saving { background:var(--warn); animation:blink .7s infinite; }
+.as-dot.saved  { background:var(--accent2); }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
 
-/* ══════════════════════════════
-   BOTTOM SHEET (Confirm / Save-Details)
-══════════════════════════════ */
+/* ── FILE UPLOAD SHEET ── */
+#uploadSheet .sheet-body { display:flex; flex-direction:column; gap:12px; }
+.upload-drop-zone {
+  border:2px dashed var(--border); border-radius:12px;
+  padding:28px 16px; text-align:center; cursor:pointer;
+  transition:all .2s; background:var(--input-bg);
+}
+.upload-drop-zone.dragover { border-color:var(--accent); background:var(--card2); }
+.upload-drop-zone input { display:none; }
+.upload-icon { font-size:32px; margin-bottom:8px; }
+
+#uploadPreview {
+  display:none; background:var(--input-bg); border:1px solid var(--border);
+  border-radius:10px; padding:10px 12px;
+}
+.up-fname { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent2); margin-bottom:6px; }
+#uploadCodeView {
+  font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.55;
+  color:var(--text); max-height:180px; overflow-y:auto; white-space:pre-wrap; word-break:break-all;
+}
+.upload-action-row { display:flex; gap:8px; margin-top:8px; }
+.up-act-btn {
+  flex:1; height:38px; border:none; border-radius:9px; font-size:18px;
+  cursor:pointer; transition:all .15s; display:flex; align-items:center; justify-content:center;
+}
+.up-act-btn:active { transform:scale(.93); }
+.up-copy { background:#001a12; color:var(--accent2); border:1px solid #001f16; }
+.up-save { background:var(--accent); color:#fff; }
+[data-theme="light"] .up-copy { background:#f0fff8; color:var(--accent2); border:1px solid #cef; }
+
+/* ── BOTTOM SHEETS ── */
 .sheet-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  z-index: 19000;
-  align-items: flex-end;
-  backdrop-filter: blur(2px);
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.7);
+  z-index:19000; align-items:flex-end; backdrop-filter:blur(2px);
 }
-.sheet-overlay.open { display: flex; }
+.sheet-overlay.open { display:flex; }
 .bottom-sheet {
-  background: var(--card);
-  width: 100%;
-  border-radius: 18px 18px 0 0;
-  border: 1px solid var(--border);
-  border-bottom: none;
-  padding: 6px 0 0;
-  animation: sheetUp 0.28s cubic-bezier(.22,.68,0,1.2);
-  max-height: 90vh;
-  overflow-y: auto;
+  background:var(--card); width:100%;
+  border-radius:18px 18px 0 0; border:1px solid var(--border); border-bottom:none;
+  padding:6px 0 0; animation:sheetUp .28s cubic-bezier(.22,.68,0,1.2);
+  max-height:90vh; overflow-y:auto;
 }
-@keyframes sheetUp {
-  from { transform: translateY(110%); }
-  to   { transform: translateY(0); }
-}
-.sheet-handle {
-  width: 36px; height: 4px;
-  background: var(--border);
-  border-radius: 2px;
-  margin: 0 auto 16px;
-}
-.sheet-body { padding: 0 18px 30px; }
-.sheet-icon {
-  width: 48px; height: 48px;
-  border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-  margin-bottom: 12px;
-}
-.sheet-icon.danger { background: #1a0000; }
-.sheet-icon.info   { background: #0d0a1a; }
-.sheet-title { font-size: 17px; font-weight: 700; margin-bottom: 5px; }
-.sheet-msg   { font-size: 13px; color: var(--text2); line-height: 1.5; margin-bottom: 18px; }
+@keyframes sheetUp { from{transform:translateY(110%)} to{transform:translateY(0)} }
+.sheet-handle { width:36px; height:4px; background:var(--border); border-radius:2px; margin:0 auto 16px; }
+.sheet-body { padding:0 18px 30px; }
+.sheet-icon { width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:12px; }
+.sheet-icon.danger { background:#1a0000; }
+.sheet-icon.info   { background:#0d0a1a; }
+.sheet-title { font-size:17px; font-weight:700; margin-bottom:12px; }
+.sheet-msg   { font-size:13px; color:var(--text2); line-height:1.5; margin-bottom:14px; }
 
-/* Sheet input fields */
-.sheet-field { margin-bottom: 12px; }
-.sheet-field label {
-  display: block;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 5px;
+/* ── SAVE SHEET ── */
+.save-row { display:flex; flex-direction:column; gap:10px; margin-bottom:14px; }
+.save-field-wrap { display:flex; flex-direction:column; gap:4px; }
+.save-field-wrap input {
+  background:var(--input-bg); border:1px solid var(--border); border-radius:9px;
+  padding:12px 13px; font-size:15px; font-family:'JetBrains Mono',monospace;
+  color:var(--text); outline:none; caret-color:var(--accent); transition:border-color .18s, box-shadow .18s;
 }
-.sheet-field input {
-  width: 100%;
-  background: var(--input-bg);
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  padding: 12px 13px;
-  font-size: 15px;
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--text);
-  outline: none;
-  caret-color: var(--accent);
-  transition: border-color 0.18s, box-shadow 0.18s;
-}
-.sheet-field input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
-}
-.sheet-field input::placeholder { color: var(--muted); }
+.save-field-wrap input:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow); }
+.save-field-wrap input::placeholder { color:var(--muted); }
 
-/* Sheet buttons */
-.sheet-btns { display: flex; gap: 9px; margin-top: 6px; }
+.sheet-btns { display:flex; gap:9px; }
 .sheet-btns button {
-  flex: 1; height: 46px;
-  border: none;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: 'Noto Sans Gurmukhi', sans-serif;
-  transition: all 0.15s;
+  flex:1; height:46px; border:none; border-radius:12px; font-size:20px;
+  cursor:pointer; transition:all .15s; display:flex; justify-content:center; align-items:center;
 }
-.sheet-btns button:active { transform: scale(0.95); }
-.sh-yes-danger { background: var(--danger); color: #fff; }
-.sh-yes-ok     { background: var(--accent); color: #fff; box-shadow: 0 0 14px var(--accent-glow); }
-.sh-no         { background: var(--card2); color: var(--text2); border: 1px solid var(--border) !important; }
+.sheet-btns button:active { transform:scale(.95); }
+.sh-yes-danger { background:var(--danger); color:#fff; }
+.sh-yes-ok     { background:var(--accent); color:#fff; box-shadow:0 0 14px var(--accent-glow); }
+.sh-no { background:var(--card2); color:var(--text2); border:1px solid var(--border) !important; }
 
-/* ══════════════════════════════
-   TOAST
-══════════════════════════════ */
+/* ── TOAST ── */
 #toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(16px);
-  background: var(--card2);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 9px 18px;
-  border-radius: 22px;
-  font-size: 13px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
-  opacity: 0;
-  transition: all 0.28s cubic-bezier(.22,.68,0,1.2);
-  z-index: 99999;
-  pointer-events: none;
-  white-space: nowrap;
-  max-width: 90vw;
+  position:fixed; bottom:24px; left:50%;
+  transform:translateX(-50%) translateY(16px);
+  background:var(--card2); border:1px solid var(--border); color:var(--text);
+  padding:9px 18px; border-radius:22px; font-size:13px;
+  box-shadow:0 4px 24px rgba(0,0,0,.5); opacity:0;
+  transition:all .28s cubic-bezier(.22,.68,0,1.2); z-index:99999;
+  pointer-events:none; white-space:nowrap; max-width:90vw;
 }
-#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- ══ APP HEADER ══ -->
 <div class="app-header">
   <div class="app-logo">
     <div class="logo-icon">💻</div>
@@ -522,67 +334,55 @@ body {
   </div>
   <div class="hdr-btns">
     <button class="hdr-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
-    <button class="hdr-btn" onclick="exportAll()" title="ਸਭ Export">📤</button>
+    <button class="hdr-btn" onclick="exportAll()" title="Export All">📤</button>
   </div>
 </div>
 
-<!-- ══ MAIN ══ -->
 <div class="main-wrap">
-
-  <!-- Excel-style column headers -->
   <div class="col-header-row">
     <div class="col-hdr"></div>
     <div class="col-hdr">ਨਾਮ</div>
     <div class="col-hdr">ਫਾਈਲ</div>
     <div class="col-hdr"></div>
   </div>
-
   <div class="files-wrap" id="filesWrap"></div>
-
-  <button class="add-btn" onclick="addRow()">＋ &nbsp;ਨਵੀਂ ਫਾਈਲ ਜੋੜੋ</button>
-
+  <button class="add-btn" onclick="addRow()" title="ਨਵੀਂ ਫਾਈਲ">＋</button>
   <div class="stats-bar">
-    <div class="stat-item">
-      <div class="stat-val" id="statFiles">0</div>
-      <div class="stat-lbl">ਫਾਈਲਾਂ</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-val" id="statFilled">0</div>
-      <div class="stat-lbl">ਕੋਡ ਸਹਿਤ</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-val" id="statChars">0</div>
-      <div class="stat-lbl">ਕੁੱਲ ਅੱਖਰ</div>
-    </div>
+    <div class="stat-item"><div class="stat-val" id="statFiles">0</div><div class="stat-lbl">ਫਾਈਲਾਂ</div></div>
+    <div class="stat-item"><div class="stat-val" id="statFilled">0</div><div class="stat-lbl">ਕੋਡ ਸਹਿਤ</div></div>
+    <div class="stat-item"><div class="stat-val" id="statChars">0</div><div class="stat-lbl">ਕੁੱਲ ਅੱਖਰ</div></div>
   </div>
 </div>
 
-<!-- ══ EDITOR ══ -->
+<div class="fab-wrap" id="mainFabWrap">
+  <button class="fab fab-upload" onclick="openSheet('uploadSheet')" title="ਫਾਈਲ ਅਪਲੋਡ ਕਰੋ">＋</button>
+</div>
+
 <div id="editorModal">
   <div class="ed-topbar">
     <button class="ed-back" onclick="closeEditor()">‹</button>
     <div class="ed-title-block">
       <div class="ed-fname" id="edFname">untitled</div>
-      <div class="ed-sub" id="edSub">ਕੋਡ ਐਡੀਟਰ</div>
     </div>
   </div>
 
   <div class="ed-actions">
-    <button class="ea-btn ea-clear" onclick="clearCode()">✕ Clear</button>
-    <button class="ea-btn ea-paste" id="pasteBtn" onclick="pasteCode()">⊕ Paste</button>
-    <button class="ea-btn ea-copy"  onclick="copyCode()">⧉ Copy</button>
-    <button class="ea-btn ea-save"  onclick="saveFile()">💾 Save</button>
+    <button class="ea-btn ea-clear" onclick="clearCode()" title="Clear">🗑️</button>
+    <button class="ea-btn ea-paste" id="pasteBtn" onclick="pasteCode()" title="Paste">📋</button>
+    <button class="ea-btn ea-copy"  onclick="copyCode()" title="Copy">⧉</button>
+    <button class="ea-btn ea-save"  onclick="saveFile()" title="Save">💾</button>
   </div>
 
-  <textarea id="editorArea"
-    placeholder="ਇੱਥੇ ਕੋਡ ਲਿਖੋ ਜਾਂ Paste ਕਰੋ..."
-    spellcheck="false"
-    autocomplete="off"
-    autocorrect="off"
-    autocapitalize="off"></textarea>
+  <div class="ed-area-wrap">
+    <textarea id="editorArea"
+      placeholder="..."
+      spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+    
+    <button class="fab fab-edit" id="fabEdit" onclick="toggleEditMode()" title="Edit/Lock">✏️</button>
+  </div>
 
   <div class="ed-footer">
-    <span id="edMeta">0 ਅੱਖਰ · 1 ਲਾਈਨ</span>
+    <span id="edMeta">0 ਅੱਖਰ</span>
     <div class="autosave-row">
       <div class="as-dot" id="asDot"></div>
       <span id="asText">—</span>
@@ -590,427 +390,403 @@ body {
   </div>
 </div>
 
-<!-- ══ CONFIRM SHEET ══ -->
 <div class="sheet-overlay" id="confirmSheet">
   <div class="bottom-sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-body">
       <div class="sheet-icon danger" id="cfIcon">🗑️</div>
-      <div class="sheet-title" id="cfTitle">ਯਕੀਨ ਕਰੋ</div>
-      <div class="sheet-msg"   id="cfMsg">ਕੀ ਤੁਸੀਂ ਜਾਰੀ ਰੱਖਣਾ ਚਾਹੁੰਦੇ ਹੋ?</div>
+      <div class="sheet-msg" id="cfMsg">ਕੀ ਤੁਸੀਂ ਜਾਰੀ ਰੱਖਣਾ ਚਾਹੁੰਦੇ ਹੋ?</div>
       <div class="sheet-btns">
-        <button class="sh-yes-danger" id="cfYes">ਹਾਂ, ਮਿਟਾਓ</button>
-        <button class="sh-no" onclick="closeSheet('confirmSheet')">ਰੱਦ ਕਰੋ</button>
+        <button class="sh-yes-danger" id="cfYes">🗑️</button>
+        <button class="sh-no" onclick="closeSheet('confirmSheet')">✕</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ SAVE-DETAILS SHEET ══ -->
 <div class="sheet-overlay" id="saveSheet">
   <div class="bottom-sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-body">
       <div class="sheet-icon info">💾</div>
-      <div class="sheet-title">ਫਾਈਲ ਦੀ ਜਾਣਕਾਰੀ ਭਰੋ</div>
-      <div class="sheet-msg">ਫਾਈਲ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਨਾਮ ਅਤੇ ਕਿਸਮ ਦੱਸੋ।</div>
-
-      <div class="sheet-field" id="saveNameField">
-        <label>ਫਾਈਲ ਨਾਮ</label>
-        <input type="text" id="saveNameInput"
-          placeholder="ਜਿਵੇਂ: index  ਜਾਂ  app"
-          autocomplete="off" autocorrect="off"
-          autocapitalize="none" spellcheck="false">
+      <div class="save-row">
+        <div class="save-field-wrap" id="saveNameField">
+          <input type="text" id="saveNameInput" placeholder="ਨਾਮ (index)"
+            autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+        </div>
+        <div class="save-field-wrap" id="saveExtField">
+          <input type="text" id="saveExtInput" placeholder="ਕਿਸਮ (html / js)"
+            autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+        </div>
       </div>
-
-      <div class="sheet-field" id="saveExtField">
-        <label>ਫਾਈਲ ਕਿਸਮ</label>
-        <input type="text" id="saveExtInput"
-          placeholder="html  /  js  /  css  /  py"
-          autocomplete="off" autocorrect="off"
-          autocapitalize="none" spellcheck="false">
-      </div>
-
       <div class="sheet-btns">
-        <button class="sh-yes-ok" onclick="doSave()">💾 ਡਾਊਨਲੋਡ ਕਰੋ</button>
-        <button class="sh-no" onclick="closeSheet('saveSheet')">ਰੱਦ ਕਰੋ</button>
+        <button class="sh-no" onclick="closeSheet('saveSheet')">✕</button>
+        <button class="sh-yes-ok" onclick="doSave()">💾</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ TOAST ══ -->
+<div class="sheet-overlay" id="uploadSheet">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-body">
+      <div class="upload-drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <input type="file" id="fileInput" accept="*/*" onchange="handleFileUpload(this.files[0])">
+        <div class="upload-icon">📂</div>
+      </div>
+
+      <div id="uploadPreview">
+        <div class="up-fname" id="upFname"></div>
+        <div id="uploadCodeView"></div>
+        <div class="upload-action-row">
+          <button class="up-act-btn up-copy" onclick="copyUploadedCode()">⧉</button>
+          <button class="up-act-btn up-save" onclick="saveUploadedToEditor()">➕</button>
+        </div>
+      </div>
+
+      <div class="sheet-btns" style="margin-top:10px">
+        <button class="sh-no" onclick="closeUploadSheet()">✕</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
-// ════════════════════════════════════════
-//  HELPERS — only latin letters/digits/dot/hyphen/underscore
-// ════════════════════════════════════════
-function sanitizeFilename(v) {
-  return v
-    .toLowerCase()
-    .replace(/[^a-z0-9.\-_]/g, ''); // strip everything non-ASCII
-}
-
-function applyFilenameFilter(input) {
-  input.addEventListener('input', function () {
-    const pos = this.selectionStart;
-    const clean = sanitizeFilename(this.value);
-    if (this.value !== clean) {
-      this.value = clean;
-      try { this.setSelectionRange(pos - 1, pos - 1); } catch(e){}
-    }
+// ── Filename sanitizer ──
+function sanitize(v) { return v.toLowerCase().replace(/[^a-z0-9.\-_]/g,''); }
+function applyFilter(inp) {
+  inp.addEventListener('input', function() {
+    const c = sanitize(this.value);
+    if (this.value !== c) { const p = this.selectionStart; this.value = c; try{this.setSelectionRange(p-1,p-1);}catch(e){} }
   });
 }
 
-// ════════════════════════════════════════
-//  STATE
-// ════════════════════════════════════════
-let rows = [];
-let activeId = null;
-let nextId = 1;
-let autoTimer = null;
-let pasteLocked = false; // true once pasted, cleared on Clear
+// ── STATE ──
+let rows = [], activeId = null, nextId = 1;
+let autoTimer = null, pasteLocked = false;
+let editorEditLocked = false; // true = readonly
+let uploadedText = '', uploadedName = '';
 
 const LS = {
-  save()  { localStorage.setItem('cnp3_rows', JSON.stringify(rows)); localStorage.setItem('cnp3_id', nextId); },
-  load()  {
-    try { rows = JSON.parse(localStorage.getItem('cnp3_rows') || '[]');
-          nextId = +localStorage.getItem('cnp3_id') || 1; }
-    catch { rows = []; }
-  }
+  save() { localStorage.setItem('cnp4_rows',JSON.stringify(rows)); localStorage.setItem('cnp4_id',nextId); },
+  load() { try { rows=JSON.parse(localStorage.getItem('cnp4_rows')||'[]'); nextId=+localStorage.getItem('cnp4_id')||1; } catch{rows=[];} }
 };
 
-// ════════════════════════════════════════
-//  BOOT
-// ════════════════════════════════════════
+// ── BOOT ──
 LS.load();
-
-// Migrate v2 data
 if (!rows.length) {
-  const oldRows = JSON.parse(localStorage.getItem('cnp_rows') || '[]');
-  if (oldRows.length) { rows = oldRows; nextId = +localStorage.getItem('cnp_nextId') || 10; }
-  else {
-    for (let i = 0; i < 3; i++) rows.push({ id: nextId++, name: '', ext: '', code: '' });
-  }
+  for(let i=0;i<3;i++) rows.push({id:nextId++,name:'',ext:'',code:''});
   LS.save();
 }
-
-// Theme
-if (localStorage.getItem('cnp3_theme') === 'light') {
-  document.documentElement.setAttribute('data-theme', 'light');
-  document.getElementById('themeBtn').textContent = '☀️';
+if (localStorage.getItem('cnp4_theme')==='light') {
+  document.documentElement.setAttribute('data-theme','light');
+  document.getElementById('themeBtn').textContent='☀️';
 }
-
-// Apply filename filter on save sheet inputs
-applyFilenameFilter(document.getElementById('saveNameInput'));
-applyFilenameFilter(document.getElementById('saveExtInput'));
-
+applyFilter(document.getElementById('saveNameInput'));
+applyFilter(document.getElementById('saveExtInput'));
 renderAll();
 
-// ════════════════════════════════════════
-//  RENDER
-// ════════════════════════════════════════
+// ── RENDER ──
 function renderAll() {
   const wrap = document.getElementById('filesWrap');
   wrap.innerHTML = '';
-  rows.forEach((r, i) => {
+  rows.forEach((r,i) => {
     const d = document.createElement('div');
-    d.className = 'file-row' + (r.code ? ' has-code' : '');
-    d.style.animationDelay = (i * 0.04) + 's';
+    d.className = 'file-row'+(r.code?' has-code':'');
+    d.style.animationDelay = (i*.04)+'s';
     d.innerHTML = `
       <button class="open-btn" onclick="openEditor(${r.id})">▶</button>
       <input type="text" value="${esc(r.name)}" placeholder="ਨਾਮ"
-        oninput="onFieldInput(this,${r.id},'name')"
+        oninput="onField(this,${r.id},'name')"
         autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
       <input type="text" value="${esc(r.ext)}" placeholder="ext"
-        oninput="onFieldInput(this,${r.id},'ext')"
+        oninput="onField(this,${r.id},'ext')"
         autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
-      <button class="del-btn" onclick="deleteRow(${r.id})">✕</button>
-    `;
-    // Apply filename filter to both row inputs
-    const inputs = d.querySelectorAll('input');
-    inputs.forEach(inp => applyFilenameFilter(inp));
+      <button class="del-btn" onclick="deleteRow(${r.id})">✕</button>`;
+    d.querySelectorAll('input').forEach(applyFilter);
     wrap.appendChild(d);
   });
   updateStats();
 }
 
 function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
-
-function onFieldInput(el, id, field) {
-  const r = rows.find(x => x.id === id);
-  if (!r) return;
-  r[field] = el.value;
-  LS.save();
-  updateStats();
-}
-
+function onField(el,id,field) { const r=rows.find(x=>x.id===id); if(!r)return; r[field]=el.value; LS.save(); updateStats(); }
 function updateStats() {
-  const filled = rows.filter(r => r.code.trim()).length;
-  const chars  = rows.reduce((s, r) => s + r.code.length, 0);
-  document.getElementById('statFiles').textContent  = rows.length;
-  document.getElementById('statFilled').textContent = filled;
-  document.getElementById('statChars').textContent  = chars > 999 ? (chars/1000).toFixed(1)+'k' : chars;
+  const f=rows.filter(r=>r.code.trim()).length, c=rows.reduce((s,r)=>s+r.code.length,0);
+  document.getElementById('statFiles').textContent=rows.length;
+  document.getElementById('statFilled').textContent=f;
+  document.getElementById('statChars').textContent=c>999?(c/1000).toFixed(1)+'k':c;
 }
 
-// ════════════════════════════════════════
-//  ROW MANAGEMENT
-// ════════════════════════════════════════
+// ── ROW MANAGEMENT ──
 function addRow() {
-  if (rows.length >= 15) { toast('ਵੱਧ ਤੋਂ ਵੱਧ 15 ਫਾਈਲਾਂ'); return; }
-  rows.push({ id: nextId++, name: '', ext: '', code: '' });
-  LS.save();
-  renderAll();
-  setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }), 80);
+  if(rows.length>=15){toast('ਵੱਧ ਤੋਂ ਵੱਧ 15 ਫਾਈਲਾਂ');return;}
+  rows.push({id:nextId++,name:'',ext:'',code:''});
+  LS.save(); renderAll();
+  setTimeout(()=>window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}),80);
 }
-
 function deleteRow(id) {
-  const r = rows.find(x => x.id === id);
-  const label = (r.name || r.ext) ? `"${r.name}.${r.ext}"` : 'ਇਸ ਕਤਾਰ';
-  showConfirm(
-    '🗑️', 'danger', 'ਫਾਈਲ ਮਿਟਾਓ',
-    `${label} ਨੂੰ ਪੱਕੇ ਤੌਰ 'ਤੇ ਮਿਟਾਓਗੇ?`,
-    'ਹਾਂ, ਮਿਟਾਓ', 'danger',
-    () => { rows = rows.filter(x => x.id !== id); LS.save(); renderAll(); toast('ਫਾਈਲ ਮਿਟਾ ਦਿੱਤੀ'); }
-  );
+  showConfirm('🗑️','danger','ਫਾਈਲ ਮਿਟਾਓਗੇ?','🗑️','danger',
+    ()=>{rows=rows.filter(x=>x.id!==id);LS.save();renderAll();toast('ਮਿਟਾ ਦਿੱਤੀ');});
 }
 
-// ════════════════════════════════════════
-//  EDITOR
-// ════════════════════════════════════════
+// ── EDITOR ──
 function openEditor(id) {
-  const r = rows.find(x => x.id === id);
-  if (!r) return;
-  activeId = id;
-  pasteLocked = r.code.trim().length > 0; // lock if code already present
-  updatePasteBtn();
-  refreshEditorHeader(r);
-  document.getElementById('editorArea').value = r.code || '';
+  const r=rows.find(x=>x.id===id); if(!r)return;
+  activeId=id;
+  pasteLocked = r.code.trim().length>0;
+  editorEditLocked = r.code.trim().length>0;
+  updatePasteBtn(); applyEditLock();
+  refreshHdr(r);
+  document.getElementById('editorArea').value=r.code||'';
   updateMeta();
   document.getElementById('editorModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  setAutoSave('—', '');
+  document.body.style.overflow='hidden';
+  setAutoSave('—','');
+  document.getElementById('mainFabWrap').style.display='none';
 }
 
-function refreshEditorHeader(r) {
-  const fname = (r.name || 'untitled') + (r.ext ? '.' + r.ext : '');
-  document.getElementById('edFname').textContent = fname;
-  document.getElementById('edSub').textContent = r.code ? `${r.code.length} ਅੱਖਰ` : 'ਖਾਲੀ ਫਾਈਲ';
+function refreshHdr(r) {
+  const fname=(r.name||'untitled')+(r.ext?'.'+r.ext:'');
+  document.getElementById('edFname').textContent=fname;
 }
-
 function closeEditor() {
   flushSave();
   document.getElementById('editorModal').classList.remove('open');
-  document.body.style.overflow = '';
-  activeId = null;
+  document.body.style.overflow='';
+  activeId=null; editorEditLocked=false;
   renderAll();
+  document.getElementById('mainFabWrap').style.display='flex';
 }
 
-// ── Auto-save ──
-document.getElementById('editorArea').addEventListener('input', () => {
-  updateMeta();
-  setAutoSave('saving...', 'saving');
-  clearTimeout(autoTimer);
-  autoTimer = setTimeout(flushSave, 1200);
-});
-
-function flushSave() {
-  if (!activeId) return;
-  const r = rows.find(x => x.id === activeId);
-  if (!r) return;
-  r.code = document.getElementById('editorArea').value;
-  LS.save();
-  setAutoSave('Saved ✓', 'saved');
-  const fname = (r.name||'untitled')+(r.ext?'.'+r.ext:'');
-  document.getElementById('edFname').textContent = fname;
-  document.getElementById('edSub').textContent = r.code ? `${r.code.length} ਅੱਖਰ` : 'ਖਾਲੀ ਫਾਈਲ';
+// ── EDIT LOCK ──
+function toggleEditMode() {
+  if (activeId !== null) {
+    editorEditLocked = !editorEditLocked;
+    applyEditLock();
+    toast(editorEditLocked ? '🔒 ਲੌਕ' : '✏️ ਐਡਿਟ ਮੋਡ');
+  }
 }
 
-function setAutoSave(txt, cls) {
-  document.getElementById('asText').textContent = txt;
-  document.getElementById('asDot').className = 'as-dot' + (cls ? ' ' + cls : '');
-}
-
-function updateMeta() {
-  const v = document.getElementById('editorArea').value;
-  document.getElementById('edMeta').textContent =
-    `${v.length} ਅੱਖਰ · ${v.split('\n').length} ਲਾਈਨਾਂ`;
-}
-
-// ── Clear ──
-function clearCode() {
+function applyEditLock() {
   const ta = document.getElementById('editorArea');
-  if (!ta.value.trim()) return;
-  showConfirm(
-    '🗑️', 'danger', 'ਕੋਡ ਮਿਟਾਓ',
-    'ਕੀ ਤੁਸੀਂ ਸਾਰਾ ਕੋਡ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?',
-    'ਹਾਂ, ਮਿਟਾਓ', 'danger',
-    () => {
-      ta.value = '';
-      ta.dispatchEvent(new Event('input'));
-      pasteLocked = false;
-      updatePasteBtn();
-      toast('ਕੋਡ ਮਿਟਾ ਦਿੱਤਾ');
-    }
-  );
-}
-
-// ── Paste (with lock) ──
-function updatePasteBtn() {
-  const btn = document.getElementById('pasteBtn');
-  if (pasteLocked) btn.classList.add('locked');
-  else btn.classList.remove('locked');
-}
-
-async function pasteCode() {
-  if (pasteLocked) { toast('Clear ਕਰੋ ਪਹਿਲਾਂ, ਫਿਰ Paste ਕਰੋ'); return; }
-  try {
-    const text = await navigator.clipboard.readText();
-    if (!text) { toast('ਕਲਿੱਪਬੋਰਡ ਖਾਲੀ ਹੈ'); return; }
-    document.getElementById('editorArea').value = text;
-    document.getElementById('editorArea').dispatchEvent(new Event('input'));
-    pasteLocked = true;
-    updatePasteBtn();
-    toast('Paste ਹੋ ਗਿਆ ✓');
-  } catch {
-    toast('ਕਲਿੱਪਬੋਰਡ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ — ਜਾਂ ਹੱਥੀਂ ਪੇਸਟ ਕਰੋ');
-  }
-}
-
-// ── Copy ──
-async function copyCode() {
-  const text = document.getElementById('editorArea').value;
-  if (!text.trim()) { toast('ਕੋਡ ਖਾਲੀ ਹੈ'); return; }
-  try { await navigator.clipboard.writeText(text); toast('ਕੋਡ ਕਾਪੀ ✓'); }
-  catch { toast('ਕਾਪੀ ਨਹੀਂ ਹੋਈ'); }
-}
-
-// ── Save ──
-function saveFile() {
-  if (!activeId) return;
-  const r = rows.find(x => x.id === activeId);
-  if (!r) return;
-  r.code = document.getElementById('editorArea').value;
-
-  if (!r.name.trim() || !r.ext.trim()) {
-    // Open save-details sheet
-    document.getElementById('saveNameInput').value = r.name;
-    document.getElementById('saveExtInput').value  = r.ext;
-    // Show only needed fields
-    document.getElementById('saveNameField').style.display = r.name.trim() ? 'none' : '';
-    document.getElementById('saveExtField').style.display  = r.ext.trim()  ? 'none' : '';
-    openSheet('saveSheet');
+  const fab = document.getElementById('fabEdit');
+  
+  if (editorEditLocked) {
+    ta.readOnly = true;
+    fab.textContent='✏️'; 
+    fab.classList.remove('editing');
   } else {
-    doDownload(r);
+    ta.readOnly = false;
+    fab.textContent='🔒'; 
+    fab.classList.add('editing');
+    setTimeout(()=>ta.focus(), 80);
   }
 }
 
+// ── AUTO-SAVE ──
+document.getElementById('editorArea').addEventListener('input',()=>{
+  updateMeta(); setAutoSave('...','saving');
+  clearTimeout(autoTimer); autoTimer=setTimeout(flushSave,1200);
+});
+function flushSave() {
+  if(!activeId)return;
+  const r=rows.find(x=>x.id===activeId); if(!r)return;
+  r.code=document.getElementById('editorArea').value;
+  LS.save(); setAutoSave('✓','saved');
+  refreshHdr(r);
+}
+function setAutoSave(t,c) {
+  document.getElementById('asText').textContent=t;
+  document.getElementById('asDot').className='as-dot'+(c?' '+c:'');
+}
+function updateMeta() {
+  const v=document.getElementById('editorArea').value;
+  document.getElementById('edMeta').textContent=`${v.length} ਅੱਖਰ`;
+}
+
+// ── CLEAR ──
+function clearCode() {
+  const ta=document.getElementById('editorArea');
+  if(!ta.value.trim())return;
+  showConfirm('🗑️','danger','ਸਾਰਾ ਕੋਡ ਮਿਟਾਉਣਾ ਹੈ?','🗑️','danger',
+    ()=>{ ta.value=''; ta.dispatchEvent(new Event('input'));
+          pasteLocked=false; editorEditLocked=false;
+          updatePasteBtn(); applyEditLock(); toast('ਮਿਟਾ ਦਿੱਤਾ'); });
+}
+
+// ── PASTE ──
+function updatePasteBtn() {
+  document.getElementById('pasteBtn').classList.toggle('locked',pasteLocked);
+}
+async function pasteCode() {
+  if(pasteLocked){toast('ਪਹਿਲਾਂ Clear (🗑️) ਕਰੋ');return;}
+  try {
+    const t=await navigator.clipboard.readText();
+    if(!t){toast('ਕਲਿੱਪਬੋਰਡ ਖਾਲੀ ਹੈ');return;}
+    document.getElementById('editorArea').value=t;
+    document.getElementById('editorArea').dispatchEvent(new Event('input'));
+    pasteLocked=true; editorEditLocked=true;
+    updatePasteBtn(); applyEditLock();
+    toast('📋 Paste ✓');
+  } catch { toast('ਇਜਾਜ਼ਤ ਦਿਓ'); }
+}
+
+// ── COPY ──
+async function copyCode() {
+  const t=document.getElementById('editorArea').value;
+  if(!t.trim()){toast('ਖਾਲੀ ਹੈ');return;}
+  try{await navigator.clipboard.writeText(t);toast('ਕਾਪੀ ✓');}
+  catch{toast('ਕਾਪੀ ਨਹੀਂ ਹੋਈ');}
+}
+
+// ── SAVE ──
+function saveFile() {
+  if(!activeId)return;
+  const r=rows.find(x=>x.id===activeId); if(!r)return;
+  r.code=document.getElementById('editorArea').value;
+  if(!r.name.trim()||!r.ext.trim()){
+    document.getElementById('saveNameInput').value=r.name;
+    document.getElementById('saveExtInput').value=r.ext;
+    document.getElementById('saveNameField').style.display=r.name.trim()?'none':'';
+    document.getElementById('saveExtField').style.display=r.ext.trim()?'none':'';
+    openSheet('saveSheet');
+  } else { doDownload(r); }
+}
 function doSave() {
-  const r = rows.find(x => x.id === activeId);
-  if (!r) return;
-  const n = document.getElementById('saveNameInput').value.trim();
-  const e = document.getElementById('saveExtInput').value.trim();
-  if (!r.name.trim() && !n) { toast('ਨਾਮ ਜ਼ਰੂਰੀ ਹੈ'); return; }
-  if (!r.ext.trim()  && !e) { toast('ਕਿਸਮ ਜ਼ਰੂਰੀ ਹੈ'); return; }
-  if (n) r.name = n;
-  if (e) r.ext  = e;
-  LS.save();
-  closeSheet('saveSheet');
-  doDownload(r);
-  renderAll(); // update name in list
+  const r=rows.find(x=>x.id===activeId); if(!r)return;
+  const n=document.getElementById('saveNameInput').value.trim();
+  const e=document.getElementById('saveExtInput').value.trim();
+  if(!r.name.trim()&&!n){toast('Name ਜ਼ਰੂਰੀ ਹੈ');return;}
+  if(!r.ext.trim()&&!e){toast('File Type ਜ਼ਰੂਰੀ ਹੈ');return;}
+  if(n)r.name=n; if(e)r.ext=e;
+  LS.save(); closeSheet('saveSheet'); doDownload(r); renderAll();
 }
-
 function doDownload(r) {
-  const fname = `${r.name}.${r.ext}`;
-  const blob = new Blob([r.code], { type: 'text/plain;charset=utf-8' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = fname;
-  a.click();
-  URL.revokeObjectURL(a.href);
-  document.getElementById('edFname').textContent = fname;
-  setAutoSave('Saved ✓', 'saved');
-  toast(`💾 ${fname} ਡਾਊਨਲੋਡ ਹੋ ਰਹੀ ਹੈ`);
+  const fname=`${r.name}.${r.ext}`;
+  const blob=new Blob([r.code],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download=fname; a.click(); URL.revokeObjectURL(a.href);
+  document.getElementById('edFname').textContent=fname;
+  setAutoSave('✓','saved');
+  toast(`💾 ${fname}`);
 }
 
-// ── Export All ──
+// ── EXPORT ALL ──
 function exportAll() {
-  const filled = rows.filter(r => r.code.trim());
-  if (!filled.length) { toast('ਕੋਡ ਵਾਲੀ ਕੋਈ ਫਾਈਲ ਨਹੀਂ'); return; }
-  let d = 0;
-  filled.forEach(r => {
-    setTimeout(() => {
-      const blob = new Blob([r.code], { type: 'text/plain;charset=utf-8' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `${r.name||'untitled'}.${r.ext||'txt'}`;
-      a.click();
-      URL.revokeObjectURL(a.href);
-    }, d);
-    d += 600;
-  });
-  toast(`${filled.length} ਫਾਈਲਾਂ Export ਹੋ ਰਹੀਆਂ ਹਨ`);
+  const f=rows.filter(r=>r.code.trim());
+  if(!f.length){toast('ਕੋਈ ਫਾਈਲ ਨਹੀਂ');return;}
+  let d=0;
+  f.forEach(r=>{ setTimeout(()=>{
+    const blob=new Blob([r.code],{type:'text/plain;charset=utf-8'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download=`${r.name||'untitled'}.${r.ext||'txt'}`;
+    a.click(); URL.revokeObjectURL(a.href);
+  },d); d+=600; });
+  toast(`${f.length} Exporting...`);
 }
 
-// ════════════════════════════════════════
-//  THEME
-// ════════════════════════════════════════
+// ── FILE UPLOAD ──
+function handleFileUpload(file) {
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    uploadedText=e.target.result;
+    uploadedName=file.name;
+    document.getElementById('upFname').textContent='📄 '+file.name;
+    document.getElementById('uploadCodeView').textContent=uploadedText.slice(0,3000)+(uploadedText.length>3000?'\n\n…':'');
+    document.getElementById('uploadPreview').style.display='block';
+    document.getElementById('dropZone').style.display='none';
+  };
+  reader.readAsText(file,'utf-8');
+}
+
+const dz=document.getElementById('dropZone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('dragover'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragover');handleFileUpload(e.dataTransfer.files[0]);});
+
+async function copyUploadedCode() {
+  if(!uploadedText)return;
+  try{await navigator.clipboard.writeText(uploadedText);toast('ਕਾਪੀ ✓');}
+  catch{toast('ਕਾਪੀ ਨਹੀਂ ਹੋਈ');}
+}
+function saveUploadedToEditor() {
+  let targetId = activeId;
+  if(!targetId) {
+    if(rows.length===0) rows.push({id:nextId++,name:'',ext:'',code:''});
+    let empty=rows.find(r=>!r.code.trim());
+    if(!empty){rows.push({id:nextId++,name:'',ext:'',code:''});LS.save();empty=rows[rows.length-1];}
+    const parts=uploadedName.split('.');
+    const ext=parts.length>1?parts.pop():'txt';
+    empty.name=sanitize(parts.join('.')||'uploaded');
+    empty.ext=sanitize(ext);
+    empty.code=uploadedText;
+    LS.save(); renderAll(); closeSheet('uploadSheet'); openEditor(empty.id);
+  } else {
+    const r=rows.find(x=>x.id===targetId);
+    if(r){ r.code=uploadedText; LS.save(); document.getElementById('editorArea').value=uploadedText;
+           document.getElementById('editorArea').dispatchEvent(new Event('input')); }
+    closeSheet('uploadSheet');
+    toast('Editor ਵਿੱਚ ਲੱਗ ਗਿਆ ✓');
+  }
+}
+function closeUploadSheet() {
+  closeSheet('uploadSheet');
+  uploadedText=''; uploadedName='';
+  document.getElementById('uploadPreview').style.display='none';
+  document.getElementById('dropZone').style.display='block';
+  document.getElementById('fileInput').value='';
+}
+
+// ── THEME ──
 function toggleTheme() {
-  const light = document.documentElement.getAttribute('data-theme') === 'light';
-  document.documentElement.setAttribute('data-theme', light ? 'dark' : 'light');
-  document.getElementById('themeBtn').textContent = light ? '🌙' : '☀️';
-  localStorage.setItem('cnp3_theme', light ? 'dark' : 'light');
+  const l=document.documentElement.getAttribute('data-theme')==='light';
+  document.documentElement.setAttribute('data-theme',l?'dark':'light');
+  document.getElementById('themeBtn').textContent=l?'🌙':'☀️';
+  localStorage.setItem('cnp4_theme',l?'dark':'light');
 }
 
-// ════════════════════════════════════════
-//  BOTTOM SHEETS
-// ════════════════════════════════════════
-function openSheet(id) { document.getElementById(id).classList.add('open'); }
-function closeSheet(id) { document.getElementById(id).classList.remove('open'); }
-
-// Close on backdrop click
-document.querySelectorAll('.sheet-overlay').forEach(el => {
-  el.addEventListener('click', e => { if (e.target === el) closeSheet(el.id); });
+// ── SHEETS ──
+function openSheet(id){document.getElementById(id).classList.add('open');}
+function closeSheet(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.sheet-overlay').forEach(el=>{
+  el.addEventListener('click',e=>{if(e.target===el)closeSheet(el.id);});
 });
 
-let _cfCb = null;
-function showConfirm(icon, iconType, title, msg, yesTxt, yesType, cb) {
-  document.getElementById('cfIcon').textContent = icon;
-  document.getElementById('cfIcon').className = `sheet-icon ${iconType}`;
-  document.getElementById('cfTitle').textContent = title;
-  document.getElementById('cfMsg').textContent = msg;
-  const yesBtn = document.getElementById('cfYes');
-  yesBtn.textContent = yesTxt;
-  yesBtn.className = yesType === 'danger' ? 'sh-yes-danger' : 'sh-yes-ok';
-  _cfCb = cb;
-  yesBtn.onclick = () => { closeSheet('confirmSheet'); if (_cfCb) _cfCb(); };
+let _cfCb=null;
+function showConfirm(icon,iconType,msg,yesTxt,yesType,cb){
+  document.getElementById('cfIcon').textContent=icon;
+  document.getElementById('cfIcon').className=`sheet-icon ${iconType}`;
+  document.getElementById('cfMsg').textContent=msg;
+  const y=document.getElementById('cfYes');
+  y.textContent=yesTxt; y.className=yesType==='danger'?'sh-yes-danger':'sh-yes-ok';
+  _cfCb=cb; y.onclick=()=>{closeSheet('confirmSheet');if(_cfCb)_cfCb();};
   openSheet('confirmSheet');
 }
 
-// ════════════════════════════════════════
-//  TOAST
-// ════════════════════════════════════════
+// ── TOAST ──
 let _tt;
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(_tt);
-  _tt = setTimeout(() => el.classList.remove('show'), 2600);
+function toast(msg){
+  const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show');
+  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2600);
 }
 
-// ════════════════════════════════════════
-//  KEYBOARD + ANDROID BACK
-// ════════════════════════════════════════
-document.addEventListener('keydown', e => {
-  if ((e.ctrlKey||e.metaKey) && e.key==='s') { e.preventDefault(); if (activeId) saveFile(); }
-  if (e.key === 'Escape' && activeId) closeEditor();
+// ── KEYBOARD + BACK ──
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();if(activeId)saveFile();}
+  if(e.key==='Escape'&&activeId)closeEditor();
 });
-window.addEventListener('popstate', () => {
-  if (activeId) { history.pushState(null,'',''); closeEditor(); }
-});
+window.addEventListener('popstate',()=>{if(activeId){history.pushState(null,'','');closeEditor();}});
 history.pushState(null,'','');
+
+// ── SERVICE WORKER ──
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(e=>console.log('SW error')));
+}
 </script>
 </body>
 </html>
